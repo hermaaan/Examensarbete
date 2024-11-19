@@ -30,7 +30,7 @@ else:
 # Define job configuration for loading raw JSON data
 job_config = bigquery.LoadJobConfig(
     source_format=bigquery.SourceFormat.NEWLINE_DELIMITED_JSON,
-    write_disposition="WRITE_APPEND",  # Append data without overwriting
+    write_disposition="WRITE_TRUNCATE",  # Append data without overwriting
     autodetect=True,  # Infer schema automatically
 )
 
