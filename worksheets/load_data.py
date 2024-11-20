@@ -2,9 +2,10 @@ import requests
 from google.cloud import bigquery
 import os
 import json
+from datetime import datetime
 
 # Set the path to your service account key file
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = r"C:\Users\herma\AppData\Roaming\gcloud\application_default_credentials.json"
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = r"C:\Users\Herman\AppData\Roaming\gcloud\application_default_credentials.json"
 
 # Initialize BigQuery client
 client = bigquery.Client()
@@ -27,24 +28,29 @@ else:
     print(f"Error: {response.status_code}, {response.text}")
     exit()
 
+# Add a timestamp field to each record
+current_timestamp = datetime.utcnow().isoformat()
+for record in raw_data:
+    record["timestamp"] = current_timestamp
+
 # Define job configuration for loading raw JSON data
 job_config = bigquery.LoadJobConfig(
     source_format=bigquery.SourceFormat.NEWLINE_DELIMITED_JSON,
-    write_disposition="WRITE_TRUNCATE",  # Append data without overwriting
+    write_disposition="WRITE_TRUNCATE",  # Overwrite existing data
     autodetect=True,  # Infer schema automatically
 )
 
-# Save the raw data to a temporary JSON file
-temp_file = "first_100_coincap_data.json"
-with open(temp_file, "w") as f:
-    for record in raw_data:
-        f.write(json.dumps(record) + "\n")  # Each record on a new line (NDJSON format)
+# Prepare the data as newline-delimited JSON in-memory
+ndjson_data = "\n".join(json.dumps(record) for record in raw_data)
 
-# Load the JSON file into BigQuery
+# Load the data directly into BigQuery
 try:
-    with open(temp_file, "rb") as source_file:
-        load_job = client.load_table_from_file(source_file, table_ref, job_config=job_config)
+    load_job = client.load_table_from_file(
+        file_obj=ndjson_data.encode("utf-8"),
+        destination=table_ref,
+        job_config=job_config,
+    )
     load_job.result()  # Wait for the job to complete
-    print(f"Successfully loaded the first 100 rows to {table_ref}")
+    print(f"Successfully loaded the first 100 rows with timestamps to {table_ref}")
 except Exception as e:
     print(f"Error: {e}")
