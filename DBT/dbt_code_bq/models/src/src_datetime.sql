@@ -1,7 +1,6 @@
 WITH stg_data_crypto AS (SELECT * FROM {{ source('crypto_api', 'stg_data_crypto') }})
 
 SELECT
-    timestamp,
     EXTRACT(DATE FROM TIMESTAMP) AS date,
     FORMAT_TIMESTAMP('%A', timestamp) AS day_name,
     FORMAT_TIMESTAMP('%B', timestamp) AS month_name,
