@@ -12,8 +12,8 @@ project_id = "examensarbete-438311"
 client = bigquery.Client(project=project_id)
 
 # Define your dataset and table details
-dataset_id = "examensarbete-438311.Staging"
-table_id = "examensarbete-438311.Staging.crypto-api"
+dataset_id = "examensarbete-438311.staging"
+table_id = "examensarbete-438311.staging.crypto-api"
 
 # Full table reference
 table_ref = f"{table_id}"

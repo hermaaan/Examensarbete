@@ -1,0 +1,6 @@
+sources:
+    - name: crypto_api
+      dataset: staging
+      tables: 
+        - name: stg_data_crypto
+          identifier: crypto-api
