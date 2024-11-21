@@ -1,7 +1,7 @@
 WITH stg_data_crypto AS (select * from {{ source('crypto_api', 'stg_data_crypto') }})
 
 SELECT 
-    id AS asset_id, 
+    id, 
     name AS currency_name, 
     symbol AS currency_symbol, 
     rank, 
