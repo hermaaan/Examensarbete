@@ -14,4 +14,4 @@ SELECT
         WHEN EXTRACT(DAYOFWEEK FROM timestamp) IN (1, 7) THEN 1
         ELSE 0
     END AS is_weekend  -- 1 for weekend, 0 for weekday
-FROM stg_data_crypto;
+FROM stg_data_crypto

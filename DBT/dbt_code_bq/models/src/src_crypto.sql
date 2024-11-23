@@ -3,6 +3,7 @@ WITH stg_data_crypto AS (select * from {{ source('crypto_api', 'stg_data_crypto'
 SELECT
     id, 
     EXTRACT(DATE FROM TIMESTAMP) AS date,
+    timestamp,
     priceUsd AS price_usd,
     volumeUsd24Hr AS volume_usd_24Hr,
     marketCapUsd AS market_cap_usd,

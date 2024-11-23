@@ -6,6 +6,6 @@ SELECT
     currency_symbol, 
     rank, 
     supply, 
-    max_supply, 
+    coalesce(max_supply, 0) AS max_supply, --0 means unlimited
     web_url
 FROM src_asset
