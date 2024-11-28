@@ -1,0 +1,160 @@
+
+#dim_Date
+models:
+  - name: dim_date
+    description: "A date dimension table for analytics purposes"
+    columns:
+      - name: date
+        description: "Primary key for the date dimension table"
+        tests:
+          - unique
+          - not_null
+      - name: original_date
+        description: "Original timestamp value"
+        tests:
+          - not_null
+      - name: day_name
+        description: "Name of the day (e.g., Monday, Tuesday)"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+      - name: month_name
+        description: "Name of the month (e.g., January, February)"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+      - name: day_of_month
+        description: "Day of the month (1-31)"
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 1
+              max_value: 31
+      - name: week_number
+        description: "Week number of the year (1-53)"
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 1
+              max_value: 53
+      - name: month_number
+        description: "Month number of the year (1-12)"
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 1
+              max_value: 12
+      - name: year
+        description: "Year value"
+        tests:
+          - not_null
+      - name: hour
+        description: "Hour of the day (0-23)"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              max_value: 23
+      - name: minute_value
+        description: "Minute value (0-59)"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              max_value: 59
+      - name: is_weekend
+        description: "Indicator if the day is a weekend (1 for true, 0 for false)"
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 0
+              max_value: 1
+
+#DIM_ASSET
+  - name: dim_asset
+    description: "A table containing cryptocurrency data with asset IDs, names, symbols, and supply details."
+    columns:
+      - name: asset_id
+        description: "Unique identifier for the cryptocurrency."
+        tests:
+          - unique
+          - not_null
+      - name: currency_name
+        description: "The name of the cryptocurrency (e.g., Bitcoin, Ethereum)."
+        tests:
+          - not_null
+      - name: currency_symbol
+        description: "The ticker symbol for the cryptocurrency (e.g., BTC, ETH)."
+        tests:
+          - not_null
+      - name: rank
+        description: "The rank of the cryptocurrency by market cap or other criteria."
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              expression: "rank > 0"
+      - name: supply
+        description: "Current circulating supply of the cryptocurrency."
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              expression: "supply >= 0"
+         
+      - name: max_supply
+        description: "Maximum supply of the cryptocurrency, if defined."
+        tests:
+          - dbt_utils.expression_is_true:
+              expression: "max_supply >= 0"
+      - name: web_url
+        description: "URL for more information about the cryptocurrency."
+        tests:
+          - not_null
+          - unique
+
+#FCT_crypto
+  - name: fct_crypto
+    description: "A fact table containing cryptocurrency metrics, including prices, volumes, and market capitalization."
+    columns:
+      - name: asset_key
+        description: "Unique identifier for the cryptocurrency asset."
+        tests:
+          - unique
+          - not_null
+      - name: date_key
+        description: "Key linking to the date dimension."
+        tests:
+          - not_null
+      - name: timestamp
+        description: "Timestamp for the record."
+        tests:
+          - not_null
+      - name: price_usd
+        description: "Current price of the cryptocurrency in USD."
+        tests:
+          - not_null
+
+      - name: volume_usd_24hr
+        description: "24-hour trading volume in USD."
+        tests:
+          - not_null
+
+      - name: market_cap_usd
+        description: "Market capitalization in USD."
+        tests:
+          - not_null
+
+      - name: change_percent_24hr
+        description: "Percentage change in price over the last 24 hours."
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: -100
+              max_value: 100
+
+          
+
+      - name: vwap_24hr
+        description: "24-hour volume-weighted average price."
+        tests:
+          - not_null
+
+ 
