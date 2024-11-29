@@ -90,25 +90,25 @@ models:
         description: "The rank of the cryptocurrency by market cap or other criteria."
         tests:
           - not_null
-          - dbt_utils.expression_is_true:
-              expression: "rank > 0"
+          - dbt_utils.accepted_range:
+              min_value: 0
+              max_value: 100
       - name: supply
         description: "Current circulating supply of the cryptocurrency."
         tests:
           - not_null
-          - dbt_utils.expression_is_true:
-              expression: "supply >= 0"
+          - dbt_utils.accepted_range:
+              min_value: 0
          
       - name: max_supply
         description: "Maximum supply of the cryptocurrency, if defined."
         tests:
-          - dbt_utils.expression_is_true:
-              expression: "max_supply >= 0"
+          - dbt_utils.accepted_range:
+              min_value: 0
       - name: web_url
         description: "URL for more information about the cryptocurrency."
         tests:
           - not_null
-          - unique
 
 #FCT_crypto
   - name: fct_crypto

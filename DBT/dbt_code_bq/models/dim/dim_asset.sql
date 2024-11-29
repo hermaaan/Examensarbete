@@ -7,5 +7,5 @@ SELECT
     rank, 
     supply, 
     coalesce(max_supply, 0) AS max_supply, --0 means unlimited
-    web_url
+    coalesce(web_url, 'Not specified') AS web_url
 FROM src_asset
