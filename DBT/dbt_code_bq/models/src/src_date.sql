@@ -1,17 +1,14 @@
-WITH stg_data_crypto AS (SELECT * FROM {{ source('crypto_api', 'stg_data_crypto') }})
-
 SELECT
-    EXTRACT(DATE FROM TIMESTAMP) AS date,
-    FORMAT_TIMESTAMP('%A', timestamp) AS day_name,
-    FORMAT_TIMESTAMP('%B', timestamp) AS month_name,
-    EXTRACT(DAY FROM timestamp) AS day_of_month,
-    EXTRACT(WEEK FROM timestamp) AS week_number,
-    EXTRACT(MONTH FROM timestamp) AS month_number, 
-    EXTRACT(YEAR FROM timestamp) AS year, 
-    EXTRACT(HOUR FROM timestamp) AS hour, 
-    EXTRACT(MINUTE FROM timestamp) AS minute_value,
-    CASE
-        WHEN EXTRACT(DAYOFWEEK FROM timestamp) IN (1, 7) THEN 1
-        ELSE 0
-    END AS is_weekend  -- 1 for weekend, 0 for weekday
-FROM stg_data_crypto
+    d AS date,
+    FORMAT_DATE('%A', d) AS day_name,
+    FORMAT_DATE('%B', d) AS month_name,
+    EXTRACT(DAY FROM d) AS day_of_month,
+    CASE 
+        WHEN EXTRACT(WEEK FROM d) = 0 THEN 1 -- treat week 0 as week 1
+        ELSE EXTRACT(WEEK FROM d)
+    END AS week_number,
+    EXTRACT(MONTH FROM d) AS month_number,
+    EXTRACT(YEAR FROM d) AS year,
+    CASE WHEN EXTRACT(DAYOFWEEK FROM d) IN (1, 7) THEN 1 ELSE 0 END AS is_weekend
+FROM 
+    UNNEST(GENERATE_DATE_ARRAY('2020-01-01', '2029-12-31', INTERVAL 1 DAY)) AS d

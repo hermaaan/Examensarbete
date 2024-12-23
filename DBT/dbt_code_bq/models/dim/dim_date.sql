@@ -9,7 +9,5 @@ SELECT DISTINCT
     week_number,
     month_number, 
     year, 
-    hour, 
-    minute_value,
     is_weekend 
 FROM src_date
