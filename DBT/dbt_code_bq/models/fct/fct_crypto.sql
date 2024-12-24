@@ -9,7 +9,9 @@ SELECT DISTINCT
     {{ dbt_utils.generate_surrogate_key(['da.date', 'da.day_name']) }} as date_key,
     timestamp,
     price_usd,
+    rank,
     volume_usd_24hr,
+    supply,
     market_cap_usd,
     change_percent_24hr,
     vwap_24hr

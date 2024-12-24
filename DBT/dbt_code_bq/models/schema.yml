@@ -50,18 +50,7 @@ models:
         description: "Year value"
         tests:
           - not_null
-      - name: hour
-        description: "Hour of the day (0-23)"
-        tests:
-          - dbt_expectations.expect_column_values_to_be_between:
-              min_value: 0
-              max_value: 23
-      - name: minute_value
-        description: "Minute value (0-59)"
-        tests:
-          - dbt_expectations.expect_column_values_to_be_between:
-              min_value: 0
-              max_value: 59
+
       - name: is_weekend
         description: "Indicator if the day is a weekend (1 for true, 0 for false)"
         tests:
@@ -86,19 +75,6 @@ models:
         description: "The ticker symbol for the cryptocurrency (e.g., BTC, ETH)."
         tests:
           - not_null
-      - name: rank
-        description: "The rank of the cryptocurrency by market cap or other criteria."
-        tests:
-          - not_null
-          - dbt_utils.accepted_range:
-              min_value: 0
-              max_value: 100
-      - name: supply
-        description: "Current circulating supply of the cryptocurrency."
-        tests:
-          - not_null
-          - dbt_utils.accepted_range:
-              min_value: 0
          
       - name: max_supply
         description: "Maximum supply of the cryptocurrency, if defined."
@@ -127,6 +103,13 @@ models:
         description: "Timestamp for the record."
         tests:
           - not_null
+      - name: rank
+        description: "The rank of the cryptocurrency by market cap or other criteria."
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+              max_value: 100   
       - name: price_usd
         description: "Current price of the cryptocurrency in USD."
         tests:
@@ -136,7 +119,12 @@ models:
         description: "24-hour trading volume in USD."
         tests:
           - not_null
-
+      - name: supply
+        description: "Current circulating supply of the cryptocurrency."
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
       - name: market_cap_usd
         description: "Market capitalization in USD."
         tests:
@@ -149,12 +137,7 @@ models:
           - dbt_expectations.expect_column_values_to_be_between:
               min_value: -100
               max_value: 100
-
-          
-
       - name: vwap_24hr
         description: "24-hour volume-weighted average price."
         tests:
           - not_null
-
- 

@@ -4,8 +4,10 @@ SELECT
     id, 
     EXTRACT(DATE FROM TIMESTAMP) AS date,
     timestamp,
+    rank, 
     priceUsd AS price_usd,
     volumeUsd24Hr AS volume_usd_24Hr,
+    supply, 
     marketCapUsd AS market_cap_usd,
     changePercent24Hr AS change_percent_24Hr,
     vwap24Hr AS vwap_24Hr
