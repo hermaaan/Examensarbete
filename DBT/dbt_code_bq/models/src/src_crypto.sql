@@ -1,6 +1,6 @@
 WITH stg_data_crypto AS (select * from {{ source('crypto_api', 'stg_data_crypto') }})
 
-SELECT
+SELECT distinct
     id, 
     EXTRACT(DATE FROM TIMESTAMP) AS date,
     timestamp,

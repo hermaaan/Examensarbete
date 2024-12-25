@@ -4,7 +4,7 @@ ca AS (select * from {{ ref('src_asset') }}),
 
 da AS (select * from {{ ref('src_date') }})
 
-SELECT DISTINCT
+SELECT
     {{ dbt_utils.generate_surrogate_key(['ca.id', 'ca.currency_name']) }} as asset_key,
     {{ dbt_utils.generate_surrogate_key(['da.date', 'da.day_name']) }} as date_key,
     timestamp,
