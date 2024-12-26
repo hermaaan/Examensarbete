@@ -91,9 +91,8 @@ models:
     description: "A fact table containing cryptocurrency metrics, including prices, volumes, and market capitalization."
     columns:
       - name: asset_key
-        description: "Unique identifier for the cryptocurrency asset."
+        description: "."
         tests:
-          - unique
           - not_null
       - name: date_key
         description: "Key linking to the date dimension."
