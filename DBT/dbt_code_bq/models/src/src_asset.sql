@@ -4,6 +4,5 @@ SELECT distinct
     id, 
     name AS currency_name, 
     symbol AS currency_symbol, 
-    maxSupply AS max_supply, 
     explorer AS web_url
 FROM stg_data_crypto

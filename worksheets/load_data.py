@@ -32,7 +32,7 @@ for record in raw_data:
 # Define job configuration for streaming JSON directly
 job_config = bigquery.LoadJobConfig(
     source_format=bigquery.SourceFormat.NEWLINE_DELIMITED_JSON,
-    write_disposition="WRITE_TRUNCATE",  # Append/truncate table data
+    write_disposition="WRITE_APPEND",  # Append/truncate table data
     autodetect=True,  # Infer schema automatically
 )
 
