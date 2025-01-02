@@ -12,4 +12,4 @@ REM Kör DBT
 dbt run
 
 REM Logga körningen
-echo Pipeline körd: %date% %time% >> C:\path\to\logfile.log
+echo Pipeline körd: %date% %time% >> C:\Users\Herman\Documents\STI\Examensarbete2024\Examensarbete\Worksheets\logfile.log

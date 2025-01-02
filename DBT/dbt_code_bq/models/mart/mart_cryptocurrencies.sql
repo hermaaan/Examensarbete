@@ -14,9 +14,9 @@ SELECT DISTINCT
     vwap_24Hr,
     supply,
     volume_usd_24Hr,
-    original_date
+    date
 FROM fct_crypto AS f
 LEFT JOIN asset AS ca
-    ON f.asset_key = ca.asset_id
+    ON f.asset_key = ca.asset_key
 LEFT JOIN date AS da
-    ON f.date_key = da.date
+    ON f.date_key = da.date_key
