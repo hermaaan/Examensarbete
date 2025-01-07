@@ -13,7 +13,7 @@ SELECT
     rank,
     volume_usd_24hr,
     supply,
-    coalesce(max_supply, 0) AS max_supply, --0 means unlimited
+    coalesce(max_supply, 0) AS max_supply, --0 means unlimited supply
     market_cap_usd,
     change_percent_24hr,
     vwap_24hr
